@@ -23,11 +23,21 @@ public function main() returns error? {
     // Step 2: Poll the job until it finishes.
     foreach int attempt in 1 ... maxPolls {
         virusscan:ScanCloudStorageJobStatusResult status = check scanner->getAsyncJobStatus(asyncJobID = jobId);
+        if status.successful != true {
+            return error("Batch job status lookup failed: " + (status.errorMessage ?: "no details"));
+        }
         string state = status.asyncJobStatus ?: "UNKNOWN";
         io:println("Attempt ", attempt, ": ", state);
         if state == "COMPLETED" {
             virusscan:CloudStorageAdvancedVirusScanResult? result = status.result;
-            io:println("Blob clean: ", result?.cleanResult ?: false);
+            if result is () {
+                return error("The completed batch job returned no scan result");
+            }
+            boolean? clean = result.cleanResult;
+            if clean is () {
+                return error("The scan result has no clean verdict");
+            }
+            io:println("Blob clean: ", clean);
             return;
         }
         if state == "FAILED" {

@@ -22,8 +22,8 @@ These changes are done in order to improve the overall usability, and as workaro
 - **Reason**: An empty per-operation `consumes` overrides the global media types and makes the operation bind as a generic `http:Response`.
 
 3. Fix the doubled slash in the base URL (aligned spec, re-apply after a re-align)
-- **Original**: `bal openapi align` folds the common `/virus/scan` prefix into the server URL and produces `https://testapi.cloudmersive.com//virus/scan`.
-- **Updated**: The server URL in `aligned_ballerina_openapi.json` is edited to `https://testapi.cloudmersive.com/virus/scan`.
+- **Original**: `bal openapi align` folds the common `/virus/scan` prefix into the server URL and produces `https://api.cloudmersive.com//virus/scan`.
+- **Updated**: The server URL in `aligned_ballerina_openapi.json` is edited to `https://api.cloudmersive.com/virus/scan`.
 - **Reason**: The double slash would be sent on every request. This is a hand edit to the aligned spec and must be re-applied after a re-align.
 
 4. Batch-job operations for AWS S3 and GCP Storage have no parameters (known limitation, not changed)
@@ -35,6 +35,11 @@ These changes are done in order to improve the overall usability, and as workaro
 - **Original**: All 15 operations returned the placeholder response description `OK` on their `200` response.
 - **Updated**: Each `200` response description in the original spec now states the operation-specific result, for example "Virus scan result for the Azure Blob, including whether it is clean and any viruses found" or "Batch job created for the AWS S3 file scan, with the job ID to use when checking its status".
 - **Reason**: `OK` carries no information and becomes the `# + return - OK` doc comment on every generated client method.
+
+6. Point the server host at the public-cloud endpoint
+- **Original**: The Swagger `host` was `testapi.cloudmersive.com`, a test endpoint.
+- **Updated**: `host` is changed to `api.cloudmersive.com` in the original spec, so the generated client defaults to `https://api.cloudmersive.com/virus/scan`.
+- **Reason**: The public Cloudmersive cloud API is served from `api.cloudmersive.com`.
 
 ## OpenAPI cli command
 

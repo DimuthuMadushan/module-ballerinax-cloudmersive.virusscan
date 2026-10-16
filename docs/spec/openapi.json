@@ -5,7 +5,7 @@
     "title": "virusapi",
     "description": "The Cloudmersive Virus Scan API lets you scan files and content for viruses and identify security issues with content."
   },
-  "host": "testapi.cloudmersive.com",
+  "host": "api.cloudmersive.com",
   "schemes": [
     "https"
   ],

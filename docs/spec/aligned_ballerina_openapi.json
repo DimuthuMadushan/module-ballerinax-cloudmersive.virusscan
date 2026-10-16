@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "https://testapi.cloudmersive.com/virus/scan"
+            "url": "https://api.cloudmersive.com/virus/scan"
         }
     ],
     "paths": {
